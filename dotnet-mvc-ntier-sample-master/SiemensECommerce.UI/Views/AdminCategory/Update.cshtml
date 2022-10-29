@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin/AdminLayout.cshtml";
+}
+
+@model SiemensECommerce.UI.Models.VM.CategoryUpdateVM
+
+
+<form action='/AdminCategory/Update' method='post'>
+
+    @Html.ValidationSummary()
+
+   @* @Html.HiddenFor(q => q.Id)*@
+    <div class="form-group">
+        <label>Name:</label>
+        @Html.TextBoxFor(q => q.Name, new{ @class="form-control" })
+    </div>
+    <div>
+        <button class ="btn btn-success" type="submit">Update</button>
+    </div>
+</form>

@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin/AdminLayout.cshtml";
+}
+
+@model List<Brand>
+<div class="table-responsive">
+     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Address</th>
+                <th>Logo Image</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Country</td>
+                <td>@item.Address</td>
+                <td>@item.LogoImage</td>
+               <td>
+                     <a class="btn btn-danger" href="/AdminBrand/Delete/@item.Id" role="button">Delete</a>
+               </td>
+            </tr>
+        }
+        </tbody>
+        
+    </table>
+</div>

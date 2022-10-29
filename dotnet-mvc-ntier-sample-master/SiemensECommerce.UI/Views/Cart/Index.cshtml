@@ -1,0 +1,110 @@
+﻿@{
+    Layout = "~/Views/Shared/Site/SiteLayout.cshtml";
+}
+
+@model List< SiemensECommerce.UI.Models.VM.CartVM>
+
+<section class="pt-5 pb-5">
+  <div class="container">
+    <div class="row w-100">
+        <div class="col-lg-12 col-md-12 col-12">
+
+            <h3 class="display-5 mb-2 text-center">Shopping Cart</h3>
+             <button class="btn btn-danger" onclick='emptyCart()'>Empty Cart</button>
+            <p class="mb-5 text-center">
+                <i id = "total_item" class="text-info font-weight-bold">@Model.Count</i> total item</p>
+            <table id="shoppingCart" class="table table-condensed table-responsive">
+                <thead>
+                    <tr>
+                        <th style="width:45%">Product</th>
+                        <th style="width:12%">Price</th>
+                        <th style="width:10%">Quantity</th>
+                        <th style="width:20%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+    {
+                    <tr id="product_@item.ProductId">
+                        <td data-th="Product">
+                            <div class="row">
+                                <div class="col-md-3 text-left">
+                                    <img src="https://via.placeholder.com/250x250/5fa9f8/ffffff" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                </div>
+                                <div class="col-md-9 text-left mt-sm-2">
+                                    <h4>@item.Name</h4>
+                                    <p class="font-weight-light">@item.Description</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-th="Price">$@item.TotalPrice<td id="totalprice"></td></td>
+                        <td data-th="Quantity">
+                            <input type="number" class="form-control form-control-lg text-center" value="@item.Quantity">
+                        </td>
+                        <td class="actions" data-th="">
+                            <div class="text-right">
+                             @*   <button class="btn btn-primary" onclick='AddToCart(@item.ProductId)'>Add To Cart
+                                </button>*@
+                                <button class="btn btn-danger" onclick='removeItem(@item.ProductId)'>Remove Item
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+    }
+                </tbody>
+            </table>
+            <div class="float-right text-right">
+                <h4>Subtotal:</h4>
+                  <h2 id = "subtotal" >$@Model.Sum(x => x.TotalPrice)</h2> <br />
+                
+            </div>
+               <div class="order"> 
+                      <a class="btn btn-success" href="~/Order/Add">Order
+                                </a>
+
+               </div>
+
+        </div>
+    </div>
+     
+</div>
+</section>
+
+<script>
+
+    //Bu fonksiyon tüm sepeti boşaltacak
+    function emptyCart(){
+        $.ajax({
+            url:'/cart/removeall',
+            type:'POST',
+            data: null,
+            success: function(data){
+                alert("Sepet boşaltıldı.");
+                document.getElementById("cartLength").innerHTML = "0";
+                $("tbody tr").remove();
+                $("#total_item").html(0);
+                $("#subtotal").html("$" + 0);
+            }
+        })
+
+    }
+
+    //bu fonksiyon seçilen ürünü sepetten silecek
+    function removeItem(id){
+          var newCart = {
+            ProductId: id
+        }
+          $.ajax({
+            url:'/cart/removeitem',
+            type:'POST',
+            data: newCart,
+            success: function(data){
+                alert("Ürün sepeti silindi" + data);
+                $("#cartLength").html(data)
+                $("#product_"+id).remove();
+                $("#total_item").html(@Model.Count - 1);
+                $("#subtotal").html("$"+@Model.Sum(x=>x.TotalPrice);
+            }
+          })
+    }
+</script>

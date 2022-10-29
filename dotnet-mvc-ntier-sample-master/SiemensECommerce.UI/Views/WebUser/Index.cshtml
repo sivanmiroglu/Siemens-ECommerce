@@ -1,0 +1,51 @@
+﻿@{
+
+
+
+    Layout = "~/Views/Shared/Admin/AdminLayout.cshtml";
+}
+
+@model List<WebUser>
+
+<form action="/webuser/search" method="get">
+    <label for="query">Search in Web Users</label>
+    <input type="text" name="query" id="query" />
+    <input type="submit" value="Search in Web Users" />
+</form>
+<div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>SurName</th>
+                <th>Email</th>
+                <th>PhoneNumber</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.SurName</td>
+                    <td>@item.Email</td>
+                    <td>@item.PhoneNumber</td>
+                    <td><a href="/WebUser/Update/@item.Id">Click to Update</a></td>
+                    <td><a href="/WebUser/Delete/@item.Id">Click to Delete</a></td>
+                </tr>
+
+
+
+            }
+
+        </tbody>
+
+
+    </table>
+
+</div>
